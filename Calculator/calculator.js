@@ -1,0 +1,179 @@
+calculator = new Object();
+calculator.isWarned = false; //输出是否为警告信息
+calculator.isFinished = false;//输出是否为=计算的结果
+calculator.isDot = false; //当前数中是否有小数点
+calculator.output = document.getElementById("output");//获取输出框
+
+//NUM_OPTR:左侧数及运算符，EXP：二元运算表达式
+expState = {
+	NULL = 0,
+	NUM = 1,
+	NUM_OPTR = 2,
+	EXP = 3
+};
+
+function getValue(input){
+	clearIfWarned();//如果上一输出为警告，先清空
+	switch (input){
+		case "C":
+			clear();
+			break;
+		case "=":
+			equalClicked();
+			break;
+		case ".":
+			dotClicked();
+			break;
+		default:
+			if(!isNaN(input)){ //输入为数字
+				numClicked(input);
+			}
+			else{ //输入为运算符
+				operatorClicked(input);
+			}
+	}
+}
+
+//如果上一输出为警告，先清空
+function clearIfWarded(){
+	if (calculator.isWarned === true){
+		calculator.output.value = "";
+		calculator.isWarned = false;
+	}
+}
+
+//“C”点击事件，清空输出，并重置flags
+function clear(){
+	calculator.output.value = "";
+	calculator.isFinished = false;
+	calculator.isDot = false;
+}
+
+//“=”点击事件，重置flogs
+function equalClick(){
+	calculator.isFinished = true;
+	var expression = calculator.output.value;
+	var state = judgeState(expression);
+	if(state === expState.NUM_OPTR){ //若为左侧数及运算符，结果为左侧数
+		calculator.output.value = expression.substring(0,expression.length-1);
+	}else if(state === expState.EXP){//若为二元运算符表达式，则计算
+		calculator.output.value = calculate(expression);
+	}
+}
+
+//"."点击事件
+function dotClicked(){
+	if (calculator.isFinished === true){//如果上一输出为=计算结果，重置表达式
+		calculator.output.value = ".";
+		calculator.isFinished = false;
+		 calculator.isDot = true;
+	}
+	else{
+		if(calculator.isDot === false){
+			calculator.output.value = calculator.output.value + ".";
+			calculator.isDot = true;
+		}
+		else{
+			calculator.output.value = "当前数字不合法";
+			calculator.isWarned = true;
+			calculator.isDot = false;
+		}
+	}
+}
+
+//数字点击事件
+function numClicked(input){
+	if(calculator.isFinished === true){
+		calculator.output.value = input;
+		calculator.isFinished = false;
+		calculator.isDot =  false;
+	}
+	else{
+		calculator.output.value = calculator.output.value + input;
+	}
+}
+
+//运算符点击事件
+function operatorClicked(input){
+	calculator.isFinished = false;
+	calculator.isDot = false;
+	var expression = calculator.output.value;
+	var state = judgeState(expression);
+	switch (state){
+		case expState.NULL:
+			calculator.output.value = "0" + input; //默认左侧变量为0
+			break;
+		case expState.NUM:
+			calculator.output.value = expression + value;
+			break;
+		case expState.NUM_OPTR:
+			calculator.output.value = expression.substring(0,expression.length-1) + input;
+			break;
+		case expState.EXP:
+			calculator.output.value = calculate(expression);
+			if (calculator.isWarned === false){
+				calculator.output.value = calculator.output.value + input;
+			}
+			break;
+	}
+}
+
+//判断当前表达式的状态（空、数字、左侧数及运算符、二元运算表达式）
+function judgeState(expression){
+	if(expression===""){
+		return expState.NULL;
+	}
+	else if (!isNaN(expression)){
+		return expState.NUM;
+	}
+	else {
+		var last_input = expression.charAt(expression.length-1);
+		if(isNaN(last_input)&&(last_input!==".")){//上一输出为运算符
+			return expState.NUM_OPTR;
+		}
+		else{
+			return expState.EXP;
+		}
+	}
+}
+
+//仅计算二元运算的加减乘除
+function calculate(expression){
+	for(var i=0; i<expression.length; i++){
+		var char_i = expression.charAt(i);
+		if(isNaN(char_i)&&(char_i !==".")){
+			var operator = char_i;
+			var index = i;
+			break;
+		}
+	}
+	//确定变量
+	var num1 = parseFloat(expression.substring(0,index));
+	var num2 = parseFloat(expression.substring(index+1));
+	//计算
+	switch(operator){
+		case "+":
+			rerurn num1+num2;
+			break;
+		case "-":
+			return num1-num2;
+			break;
+		case "*":
+			return num1*num2;
+			break;
+		case "/":
+			if(num2 == 0){
+				calculator.isWarned = true;
+				return "除数不能为0";
+			}
+			else return num1/num2;
+			break;
+		case "%":
+			if(num2 == 0){
+				calculator.isWarned = true;
+				return "除数不能为0";
+			}
+			else return num1%num2;
+			break;
+	}
+}

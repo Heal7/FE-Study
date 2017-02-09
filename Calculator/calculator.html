@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="calculator.css"/>
+</head>
+<body>
+	<div class="calculator-plane">
+		<input class="output" id="output" type="text" value="0" />
+		<div class="div-first">
+			<input class="input" type="button" value="C" onclick="getValue(this.value)"/>
+			<input class="input" type="button" value="/" onclick="getValue(this.value)"/>
+		</div>
+		<div>
+			<input class="input" type="button" value="7" onclick="getValue(this.value)"/>
+			<input class="input" type="button" value="8" onclick="getValue(this.value)"/>
+			<input class="input" type="button" value="9" onclick="getValue(this.value)"/>
+			<input class="input" type="button" value="*" onclick="getValue(this.value)"/>
+		</div>
+		<div>
+			<input class="input" type="button" value="4" onclick="getValue(this.value)"/>
+			<input class="input" type="button" value="5" onclick="getValue(this.value)"/>
+			<input class="input" type="button" value="6" onclick="getValue(this.value)"/>
+			<input class="input" type="button" value="-" onclick="getValue(this.value)"/>
+		</div>
+		<div>
+			<input class="input" type="button" value="1" onclick="getValue(this.value)"/>
+			<input class="input" type="button" value="2" onclick="getValue(this.value)"/>
+			<input class="input" type="button" value="3" onclick="getValue(this.value)"/>
+			<input class="input" type="button" value="+" onclick="getValue(this.value)"/>
+		</div>
+		<div>
+			<input class="input" type="button" value="%" onclick="getValue(this.value)"/>
+			<input class="input" type="button" value="0" onclick="getValue(this.value)"/>
+			<input class="input" type="button" value="." onclick="getValue(this.value)"/>
+			<input class="input" type="button" value="=" onclick="getValue(this.value)"/>
+		</div>
+	</div>
+	<script src="calculator.js"></script>
+</body>
+</html>
+

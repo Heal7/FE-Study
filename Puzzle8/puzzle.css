@@ -1,7 +1,6 @@
 body{
-	background: #ebe4ea;
 	text-align: center;
-	color:#d9a3d5;
+	color:#FFB90F;
 }
 table{
 	margin:0 auto;
@@ -9,7 +8,7 @@ table{
 }
 td{
 	padding:50px;
-	background-color: #e8d1e7;
+	background-color: #FFF68F;
 	margin:2px;
 	font-size:25px;
 }
@@ -22,5 +21,5 @@ button{
 	height:27px;
 }
 .zero{
-	background-color: #ebe4ea;
+	background-color: #FFFACD;
 }
